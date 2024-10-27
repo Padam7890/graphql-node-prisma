@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                         // Change this to ES5 if you want to support older versions
+    "module": "CommonJS",                       // Use CommonJS for Node.js
+    "rootDir": "./src",                        // Specify the root directory of your source files
+    "outDir": "./dist",                         // Output directory for compiled files
+    "esModuleInterop": true,                    // Enables emit interoperability between CommonJS and ES Modules
+    "skipLibCheck": true                        // Skip type checking of declaration files
+  },
+  "include": ["src/**/*"],                      // Include all files in the src folder
+  "exclude": ["node_modules"]                   // Exclude node_modules folder
+}
