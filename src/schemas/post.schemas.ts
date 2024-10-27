@@ -5,7 +5,7 @@ const postTypeDefs = gql`
     id: ID!
     title: String!
     content: String!
-    author: User!
+    authorId: User!
   }
 
   extend type Query {
