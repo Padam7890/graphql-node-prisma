@@ -1,10 +1,14 @@
 import { IResolvers } from "@graphql-tools/utils";
-import { createUserSchema } from "../validation/uservalidation";
-import { hasPassword } from "../utils/haspassword";
+import { hasPassword } from "../utils/user-utils";
+import { createUserSchema } from "../services/userservices/validation";
 
 export const userResolvers: IResolvers = {
   Query: {
-    getUser: (parent, { id }, context) => {},
+    getUser: async (parent, { id }, context) => {
+      await context.prisma.user.findMany({
+        where: { id },
+      });
+    },
     allUsers: (parent, args, context) => {},
   },
   Mutation: {
@@ -28,12 +32,8 @@ export const userResolvers: IResolvers = {
         },
       });
     },
-    updateUser: (parent, { id, name, email }, context) => {
-
-    },
-    deleteUser: (parent, { id }, context) => {
-        
-    }
+    updateUser: (parent, { id, name, email }, context) => {},
+    deleteUser: (parent, { id }, context) => {},
   },
   User: {
     posts: (user, args, context) => {

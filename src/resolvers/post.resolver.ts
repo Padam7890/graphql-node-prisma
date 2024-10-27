@@ -25,7 +25,7 @@ const postResolvers: IResolvers = {
     },
   },
   Post: {
-    author: (post, args, context) => {
+    authorId: (post, args, context) => {
       // Logic to fetch the author of the post
       return context.prisma.user.findUnique({
         where: { id: post.authorId }, 
