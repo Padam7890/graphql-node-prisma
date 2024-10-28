@@ -1,24 +1,21 @@
 import { IResolvers } from "@graphql-tools/utils";
+import { getAllPosts } from "../services/postservices/postservice";
 
 const postResolvers: IResolvers = {
   Query: {
     getPost: (parent, { id }, context) => {
       // Logic to fetch a post by ID from the database
     },
-    allPosts: (parent, args, context) => {
-      // Logic to fetch all posts from the database
+     allPosts: async (parent, args, {prisma}) => {
+      const getAllPost = await getAllPosts(prisma);
+      return getAllPost;
     },
   },
   Mutation: {
-    createPost: (parent, { title, content, authorId }, context) => {
-      // Logic to create a post in the database
-      return context.prisma.post.create({
-        data: {
-          title,
-          content,
-          author: { connect: { id: authorId } }, // Connect post to the author
-        },
-      });
+    createPost: async (parent, args:{ title:string, content:string, authorId:string }, context) => {
+      //validation data
+
+      
     },
     updatePost: (parent, { id, title, content }, context) => {
       // Logic to update a post in the database

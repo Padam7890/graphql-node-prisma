@@ -5,15 +5,22 @@ export const authTypeDefs = gql`
     email: String!
     password: String!
   }
+  input registerInput{
+    name: String!
+    email: String!
+    password: String!
+  }
 
-  type LoginResponse {
+  type AuthResponse {
     name: String!
     email: String!
     token: String!
     message: String!
   }
 
+
   extend type Mutation {
-    login(input: LoginInput!): LoginResponse!
+    login(input: LoginInput!): AuthResponse!
+    signup(input: registerInput!): AuthResponse!
   }
 `;

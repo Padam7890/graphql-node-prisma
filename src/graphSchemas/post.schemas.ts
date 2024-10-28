@@ -6,10 +6,15 @@ const postTypeDefs = gql`
     title: String!
     content: String!
     authorId: User!
+    author: User! 
+  }
+
+  type PostResponse {
+    data: [Post!]!
   }
 
   extend type Query {
-    getPost(id: ID!): Post
+    getPost(id: ID!): PostResponse!
     allPosts: [Post!]!
   }
 

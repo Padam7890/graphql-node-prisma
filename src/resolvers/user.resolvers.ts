@@ -1,6 +1,9 @@
 import { IResolvers } from "@graphql-tools/utils";
 import { generateToken, hasPassword } from "../utils/user-utils";
-import { createUserSchema, updateUserSchema } from "../services/userservices/validation";
+import {
+  createUserSchema,
+  updateUserSchema,
+} from "../validation/uservalidation";
 import { createUser, updateUser } from "../services/userservices/userservice";
 
 export const userResolvers: IResolvers = {
@@ -22,12 +25,12 @@ export const userResolvers: IResolvers = {
       const createnewUser = await createUser(args, context.prisma);
       const createToken = generateToken(createnewUser);
       return {
-        id:createnewUser.id,
+        id: createnewUser.id,
         name: createnewUser.name,
         email: createnewUser.email,
         password: createnewUser.password,
         token: createToken,
-      }
+      };
     },
     updateUser: async (parent, { id, ...args }, context) => {
       updateUserSchema.validateSync(args, { abortEarly: true });
@@ -39,7 +42,7 @@ export const userResolvers: IResolvers = {
         password: updatedUser.password,
       };
     },
-    
+
     deleteUser: (parent, { id }, context) => {},
   },
   User: {

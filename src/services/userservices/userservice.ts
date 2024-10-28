@@ -5,7 +5,7 @@ import {
   GetUserByIdParameter,
   IUser,
 } from "./types";
-import { loginUserSchema } from "./validation";
+import { loginUserSchema } from "../../validation/uservalidation";
 import { hasPassword } from "../../utils/user-utils";
 
 export async function getUserById({
@@ -72,7 +72,7 @@ export async function updateUser(
     where: { email: updatedUser.email },
     select: { id: true },
   });
-  if (existingUser && existingUser.id!== id) {
+  if (existingUser && existingUser.id !== id) {
     throw new Error("Email already in use");
   }
 
@@ -88,7 +88,10 @@ export async function updateUser(
   return updated;
 }
 
-export async function deleteUser(id: string, prisma: PrismaClient): Promise<User | null> {
+export async function deleteUser(
+  id: string,
+  prisma: PrismaClient
+): Promise<User | null> {
   const user = await getUserById({ id, prisma });
   if (!user) {
     throw new Error("User not found");
@@ -98,4 +101,3 @@ export async function deleteUser(id: string, prisma: PrismaClient): Promise<User
   });
   return deletedUser;
 }
-

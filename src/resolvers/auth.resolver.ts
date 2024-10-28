@@ -1,8 +1,14 @@
 import { IResolvers } from "@graphql-tools/utils";
-import { getUserByEmail } from "../services/userservices/userservice";
+import {
+  createUser,
+  getUserByEmail,
+} from "../services/userservices/userservice";
 import { comparePassword, generateToken } from "../utils/user-utils";
 import { createResponse } from "../utils/response";
-import { loginUserSchema } from "../services/userservices/validation";
+import {
+  loginUserSchema,
+  signupUserSchema,
+} from "../validation/uservalidation";
 
 export const authResolver: IResolvers = {
   Mutation: {
@@ -19,7 +25,18 @@ export const authResolver: IResolvers = {
         email: getUser.email,
         token: genToken,
         message: "Logged in successfully",
-      }
+      };
+    },
+    signup: async (_, { input }, { prisma }) => {
+      await signupUserSchema.validate(input, { abortEarly: true });
+      const createUsers = await createUser(input, prisma);
+      const genToken = generateToken(createUsers);
+      return {
+        name: createUsers.name,
+        email: createUsers.email,
+        token: genToken,
+        message: "Logged in successfully",
+      };
     },
   },
 };
