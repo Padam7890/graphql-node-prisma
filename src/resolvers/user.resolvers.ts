@@ -1,6 +1,7 @@
 import { IResolvers } from "@graphql-tools/utils";
-import { hasPassword } from "../utils/user-utils";
-import { createUserSchema } from "../services/userservices/validation";
+import { generateToken, hasPassword } from "../utils/user-utils";
+import { createUserSchema, updateUserSchema } from "../services/userservices/validation";
+import { createUser, updateUser } from "../services/userservices/userservice";
 
 export const userResolvers: IResolvers = {
   Query: {
@@ -17,22 +18,28 @@ export const userResolvers: IResolvers = {
       args: { name: string; email: string; password: string },
       context
     ) => {
-      await createUserSchema.validate(args, { abortEarly: true });
-      const existingUser = await context.prisma.user.findUnique({
-        where: { email: args.email },
-      });
-      if (existingUser) {
-        throw new Error("Email already in use");
+      createUserSchema.validateSync(args, { abortEarly: true });
+      const createnewUser = await createUser(args, context.prisma);
+      const createToken = generateToken(createnewUser);
+      return {
+        id:createnewUser.id,
+        name: createnewUser.name,
+        email: createnewUser.email,
+        password: createnewUser.password,
+        token: createToken,
       }
-      return context.prisma.user.create({
-        data: {
-          name: args.name,
-          email: args.email,
-          password: hasPassword(args.password),
-        },
-      });
     },
-    updateUser: (parent, { id, name, email }, context) => {},
+    updateUser: async (parent, { id, ...args }, context) => {
+      updateUserSchema.validateSync(args, { abortEarly: true });
+      const updatedUser = await updateUser(id, args, context.prisma);
+      return {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        password: updatedUser.password,
+      };
+    },
+    
     deleteUser: (parent, { id }, context) => {},
   },
   User: {

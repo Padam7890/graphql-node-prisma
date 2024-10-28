@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const hasPassword = (password: string): String => {
+export const hasPassword = (password: string): string => {
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(password, salt);
 }
