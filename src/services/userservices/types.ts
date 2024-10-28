@@ -5,6 +5,7 @@ export interface GetUserByIdParameter {
     prisma: PrismaClient;
   }
   
+  
  export interface getUserByEmailParameter {
     email: string;
     prisma: PrismaClient;

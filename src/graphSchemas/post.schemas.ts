@@ -5,8 +5,7 @@ const postTypeDefs = gql`
     id: ID!
     title: String!
     content: String!
-    authorId: User!
-    author: User! 
+    authorId: String!
   }
 
   type PostResponse {
@@ -19,7 +18,7 @@ const postTypeDefs = gql`
   }
 
   extend type Mutation {
-    createPost(title: String!, content: String!, authorId: ID!): Post!
+    createPost(title: String!, content: String!, authorId: String!): Post!
     updatePost(id: ID!, title: String, content: String): Post!
   }
 `;

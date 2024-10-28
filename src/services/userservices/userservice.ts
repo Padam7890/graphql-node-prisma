@@ -12,8 +12,21 @@ export async function getUserById({
   id,
   prisma,
 }: GetUserByIdParameter): Promise<User | null> {
+  console.log(id, prisma);
   const user = await prisma.user.findUnique({
     where: { id },
+  });
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return user;
+}
+export async function getUserByAuthorId(
+  authorId: string,
+  prisma: PrismaClient
+): Promise<User | null> {
+  const user = await prisma.user.findUnique({
+    where: { id: authorId },
   });
   if (!user) {
     throw new Error("User not found");
