@@ -9,7 +9,7 @@ import {
 const postResolvers: IResolvers = {
   Query: {
     getPost: (parent, { id }, context) => {
-      // Logic to fetch a post by ID from the database
+
     },
     allPosts: async (parent, args, { prisma }) => {
       const getAllPost = await getAllPosts(prisma);
@@ -17,14 +17,19 @@ const postResolvers: IResolvers = {
     },
   },
   Mutation: {
-    createPost: async (parent, args, { prisma }) => {
-      createUserValidate.validateSync(args);
-      const checkAuthotId = await getUserByAuthorId(args.authorId, prisma);
-      if (!checkAuthotId) throw new Error("Author id not found");
-
-      const newPost = await createPost(args, prisma, args.authorId);
-      return newPost;
+    createPost: async (parent, { input }, { prisma }) => {
+      await createUserValidate.validate(input, { abortEarly: false });
+      const author = await getUserByAuthorId(input.authorId, prisma);
+      if (!author) throw new Error("Author ID not found");
+    
+      // Create the post
+      const newPost = await createPost(input, prisma);
+      return {
+        data: newPost,
+        message: "Post created successfully",
+      };
     },
+    
 
     updatePost: async (parent, {id, ...args}, {prisma}) => {
       updateUserValidate.validateSync(args);
@@ -33,9 +38,8 @@ const postResolvers: IResolvers = {
 
     },
   },
-  Post: {
+  QPost: {
     authorId: (post, args, context) => {
-      // Logic to fetch the author of the post
       return context.prisma.user.findUnique({
         where: { id: post.authorId },
       });

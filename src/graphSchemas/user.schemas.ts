@@ -7,7 +7,7 @@ const userTypeDefs = gql`
     email: String!
     password: String!
     token: String!
-    posts: [Post!]!
+    posts: [QPost!]!
   }
 
   type UserUpdateResponse {

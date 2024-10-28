@@ -12,13 +12,13 @@ export function getAllPosts(prisma: PrismaClient): Promise<Post[]> {
 export async function createPost(
   data: post,
   prisma: PrismaClient,
-  authorId: string
 ): Promise<Post> {
+    console.log(data)
   return await prisma.post.create({
     data: {
       title: data.title,
       content: data.content,
-      author: { connect: { id: authorId } },
+      authorId:data.authorId,
     },
   });
 }
@@ -42,10 +42,7 @@ export async function updatePost(
 }
 
 export async function findOnePost(id: string, prisma: PrismaClient) {
-  return await prisma.post.findUnique({
+  return await prisma.post.findFirst({
     where: { id },
-    include: {
-      author: true,
-    },
   });
 }

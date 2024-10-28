@@ -1,25 +1,32 @@
 import { gql } from "apollo-server-express";
 
 const postTypeDefs = gql`
-  type Post {
+  type QPost {
     id: ID!
     title: String!
     content: String!
     authorId: String!
   }
 
+  input PostInput {
+    title: String!
+    content: String!
+    authorId: String!
+  }
+
   type PostResponse {
-    data: [Post!]!
+    data: QPost!
+    message: String!
   }
 
   extend type Query {
-    getPost(id: ID!): PostResponse!
-    allPosts: [Post!]!
+    getPost(id: ID!): QPost!
+    allPosts: [QPost!]!
   }
 
   extend type Mutation {
-    createPost(title: String!, content: String!, authorId: String!): Post!
-    updatePost(id: ID!, title: String, content: String): Post!
+    createPost(input: PostInput!): PostResponse!
+    updatePost(id: ID!, title: String, content: String): QPost!
   }
 `;
 
