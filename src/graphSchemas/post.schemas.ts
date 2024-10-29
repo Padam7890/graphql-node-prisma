@@ -27,6 +27,7 @@ const postTypeDefs = gql`
   extend type Mutation {
     createPost(input: PostInput!): PostResponse!
     updatePost(id: ID!, title: String, content: String): QPost!
+    deletePost(id: ID!): PostResponse!
   }
 `;
 

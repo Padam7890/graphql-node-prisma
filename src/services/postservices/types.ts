@@ -6,3 +6,8 @@ export interface post{
     content: string;
     authorId?: string;
 }
+export interface UpdatePostArgs {
+    id: string; 
+    title: string;
+    content: string;
+  }

@@ -8,10 +8,10 @@ import {
 import { loginUserSchema } from "../../validation/uservalidation";
 import { hasPassword } from "../../utils/user-utils";
 
-export async function getUserById({
-  id,
-  prisma,
-}: GetUserByIdParameter): Promise<User | null> {
+export async function getUserById(
+  id: string,
+  prisma: PrismaClient
+): Promise<User | null> {
   console.log(id, prisma);
   const user = await prisma.user.findUnique({
     where: { id },
@@ -77,7 +77,7 @@ export async function updateUser(
   updatedUser: Partial<IUser>,
   prisma: PrismaClient
 ): Promise<User | null> {
-  const user = await getUserById({ id, prisma });
+  const user = await getUserById(id, prisma );
   if (!user) {
     throw new Error("User not found");
   }
@@ -105,7 +105,7 @@ export async function deleteUser(
   id: string,
   prisma: PrismaClient
 ): Promise<User | null> {
-  const user = await getUserById({ id, prisma });
+  const user = await getUserById(id, prisma);
   if (!user) {
     throw new Error("User not found");
   }

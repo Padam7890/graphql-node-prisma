@@ -16,10 +16,14 @@ const userTypeDefs = gql`
     email: String!
     password: String!
   }
+  type UserResponse {
+    data:[User]!
+    message: String!
+  }
 
   type Query {
-    getUser(id: ID!): User
-    allUsers: [User!]!
+    getUser(id: ID!): User!
+    allUsers:UserResponse!
   }
 
   type Mutation {
