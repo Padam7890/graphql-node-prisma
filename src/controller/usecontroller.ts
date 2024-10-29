@@ -11,8 +11,8 @@ import {
   updateUserSchema,
 } from "../validation/uservalidation";
 
-export const getAllUser = async (parent, args, { prisma }) => {
-  const allUser = await getAllUsers(prisma);
+export const getAllUser = async (parent, args:{limit:number, offset:number}, { prisma }) => {
+  const allUser = await getAllUsers(args,prisma);
   return {
     data: allUser,
     message: "All users fetched successfully",

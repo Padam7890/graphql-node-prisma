@@ -23,7 +23,7 @@ const userTypeDefs = gql`
 
   type Query {
     getUser(id: ID!): User!
-    allUsers:UserResponse!
+    allUsers(limit:Int , offset:Int):UserResponse!
   }
 
   type Mutation {

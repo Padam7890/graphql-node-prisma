@@ -47,8 +47,12 @@ export async function getUserByEmail({
   return user;
 }
 
-export async function getAllUsers(prisma: PrismaClient): Promise<User[]> {
-  const allUsers = await prisma.user.findMany();
+export async function getAllUsers({limit, offset}, prisma: PrismaClient): Promise<User[]> {
+  const allUsers = await prisma.user.findMany({
+    take: limit,
+    skip: offset,
+    orderBy: { id: "asc" },
+  });
   return allUsers;
 }
 
