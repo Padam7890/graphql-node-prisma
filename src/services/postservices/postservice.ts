@@ -1,8 +1,11 @@
 import { Post, PrismaClient } from "@prisma/client";
 import { post } from "./types";
 
-export function getAllPosts(prisma: PrismaClient): Promise<Post[]> {
+
+export function getAllPosts({limit, offset} ,prisma: PrismaClient): Promise<Post[]> {
   return prisma.post.findMany({
+    take: limit,
+    skip: offset,
     include: {
       author: true,
     },

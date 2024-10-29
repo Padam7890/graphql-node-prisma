@@ -21,7 +21,7 @@ const postTypeDefs = gql`
 
   extend type Query {
     getPost(id: ID!): QPost!
-    allPosts: [QPost!]!
+    allPosts(limit:Int, offset:Int): [QPost!]!
   }
 
   extend type Mutation {

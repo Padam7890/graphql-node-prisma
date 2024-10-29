@@ -11,8 +11,8 @@ const postResolvers: IResolvers = {
     getPost: (parent, { id }, context) => {
 
     },
-    allPosts: async (parent, args, { prisma }) => {
-      const getAllPost = await getAllPosts(prisma);
+    allPosts: async (parent, filter:{limit:number, offset:number}, { prisma }) => {
+      const getAllPost = await getAllPosts(filter, prisma);
       return getAllPost;
     },
   },
